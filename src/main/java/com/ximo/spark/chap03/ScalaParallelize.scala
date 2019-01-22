@@ -17,9 +17,14 @@ object ScalaParallelize {
     val rdd = sc.parallelize(List(1, 2, 3))
     val ints = rdd.map(s => s * s).collect()
 
+    rdd.aggregate(0, 0)(
+      (acc, value) => (acc._1 + value, acc._2 + 1),
+      (acc1, acc2) => (acc1._1 + acc2._1, acc1._2 + acc2._2)
+    )
+
     rdd.reduce((x , y) => x + y)
     // scala 中的fold操作 反人类？？、
-    rdd.fold(0) ((x, y) => x + y)
+    rdd.fold(0) (_+_)
 
     val lines = sc.parallelize(List("hello world", "word", "python"))
     lines.flatMap(line => line.split(" "))
