@@ -1,5 +1,6 @@
 package com.ximo.spark.chap03
 
+import org.apache.spark.storage.StorageLevel
 import org.apache.spark.{SparkConf, SparkContext}
 
 /**
@@ -27,8 +28,11 @@ object ScalaParallelize {
     rdd.fold(0) (_+_)
 
     val lines = sc.parallelize(List("hello world", "word", "python"))
-    lines.flatMap(line => line.split(" "))
-      .first()
+    val words = lines.flatMap(line => line.split(" "))
+    // 持久化
+    words.persist(StorageLevel.MEMORY_ONLY_2)
+    println(words.count())
+    println(words.first())
   }
 
   def testCount(sc: SparkContext): Unit= {
