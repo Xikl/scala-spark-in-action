@@ -27,7 +27,7 @@ object ScalaParallelize {
     // scala 中的fold操作 反人类？？、
     rdd.fold(0) (_+_)
 
-    val lines = sc.parallelize(List("hello world", "word", "python"))
+    val lines = sc.parallelize(List("hello world", "word", "python line hello"))
     val words = lines.flatMap(line => line.split(" "))
     // 持久化
     words.persist(StorageLevel.MEMORY_ONLY_2)
@@ -38,6 +38,12 @@ object ScalaParallelize {
     println(words.first())
     // 手动删除缓存
     words.unpersist(true)
+
+    // 最后会变成 <hello hello world>, <word word>, <python python line hello>
+    val keyValueRDD = lines.map(words => (words.split(" ")(0), words))
+    keyValueRDD.filter({case (key, value) => value.length > 10} )
+
+
   }
 
   def testCount(sc: SparkContext): Unit= {
