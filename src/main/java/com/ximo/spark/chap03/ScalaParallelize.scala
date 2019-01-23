@@ -31,8 +31,13 @@ object ScalaParallelize {
     val words = lines.flatMap(line => line.split(" "))
     // 持久化
     words.persist(StorageLevel.MEMORY_ONLY_2)
+
+    // 默认为persist(StorageLevel.MEMORY_ONLY)
+//    words.cache()
     println(words.count())
     println(words.first())
+    // 手动删除缓存
+    words.unpersist(true)
   }
 
   def testCount(sc: SparkContext): Unit= {
