@@ -39,6 +39,17 @@ public class ParallelizeList {
         // 标准java接口中的reduce操作 提供默认值
         rdd2.fold(0, (a, b) -> a + b);
 
+        // word count 繁琐版本
+        sparkContext.textFile("")
+                .flatMap(line -> Arrays.asList(line.split(" ")).iterator())
+                .mapToPair(word -> new Tuple2<>(word, 1))
+                .reduceByKey((value1, value2) -> value1 + value2);
+
+        // countByValue
+        sparkContext.textFile("")
+                .flatMap(line -> Arrays.asList(line.split(" ")).iterator())
+                .countByValue();
+
 
     }
 
