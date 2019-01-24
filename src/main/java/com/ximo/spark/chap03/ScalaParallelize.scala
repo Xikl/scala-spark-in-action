@@ -43,6 +43,20 @@ object ScalaParallelize {
     val keyValueRDD = lines.map(words => (words.split(" ")(0), words))
     keyValueRDD.filter({case (key, value) => value.length > 10} )
 
+    // 详见 pdf的部分 page 68
+    keyValueRDD.mapValues(value => (value, 1))
+      .reduceByKey((value1, value2) => (value1._1.concat(value2._1), value1._2 + value2._2))
+
+    // word count 繁琐版本
+    val input = sc.textFile(" ")
+//    val words = input.flatMap(line => line.split(" "))
+    val words2 = input.flatMap(_.split(" "))
+    words2.map(word => (word, 1)).reduceByKey((value1, value2) => value1 + value2)
+
+    // 简约版本
+    sc.textFile(" ").flatMap(_.split(" ")).map((_, 1)).reduceByKey(_ + _)
+
+
 
   }
 
