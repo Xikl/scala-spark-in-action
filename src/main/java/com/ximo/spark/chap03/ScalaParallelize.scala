@@ -1,5 +1,6 @@
 package com.ximo.spark.chap03
 
+import org.apache.spark.rdd.RDD.rddToPairRDDFunctions
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.{SparkConf, SparkContext}
 
