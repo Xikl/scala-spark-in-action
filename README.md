@@ -10,3 +10,5 @@ scala-spark-in-action
 ```scala
 sc.textFile(" ").flatMap(_.split(" ")).map((_, 1)).reduceByKey(_ + _)
 ```
+#### combineByKey()
+![combineByKey数据示意图](file/img/combineByKey()%20数据流示意图.png)
