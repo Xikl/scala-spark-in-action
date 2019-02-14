@@ -33,6 +33,10 @@ object ReduceByKey {
 
   }
 
+  /**
+    * scala 隐式转化
+    * @param sc SparkContext
+    */
   def sortByKey(sc: SparkContext) : Unit={
     // 排序
     val sortData = List((111, "python"), (22222, "scala"))
