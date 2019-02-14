@@ -36,6 +36,19 @@ object DataPartition {
 
   }
 
+  def RDDPartition(sc: SparkContext): Unit ={
+    val pairs = sc.parallelize(List((1, 1), (2, 2), (3, 3)))
+    // 初始没有分区信息
+    println(pairs.partitioner)
+
+    // 进行hash分区
+    // 持久化 避免重复求值
+    pairs.partitionBy(new HashPartitioner(100)).persist()
+    // 打印分区信息
+    println(pairs.partitioner)
+
+  }
+
 
 
 }
